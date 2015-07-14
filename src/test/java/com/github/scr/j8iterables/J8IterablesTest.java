@@ -146,4 +146,12 @@ public class J8IterablesTest {
         });
         assertThat(atomicInteger.get(), not(0));
     }
+
+    @Test
+    public void testFluentIterableFromStream() throws Exception {
+        Stream<Integer> stream = Stream.of(1, 2, 3);
+        J8Iterables.fromStream(stream)
+                .filter(x -> x == 2)
+                .size();
+    }
 }

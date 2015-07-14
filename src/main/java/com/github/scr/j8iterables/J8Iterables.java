@@ -1,5 +1,6 @@
 package com.github.scr.j8iterables;
 
+import com.google.common.collect.FluentIterable;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
@@ -22,7 +23,7 @@ public class J8Iterables {
      *
      * @param <T> The type of elements
      */
-    static class StreamIterable<T> implements Iterable<T> {
+    static class StreamIterable<T> extends FluentIterable<T> {
         @NotNull
         private final Stream<T> STREAM;
 
@@ -169,7 +170,7 @@ public class J8Iterables {
      * @return Iterable from the given stream
      */
     @NotNull
-    public static <T> StreamIterable<T> fromStream(@NotNull Stream<T> stream) {
+    public static <T> FluentIterable<T> fromStream(@NotNull Stream<T> stream) {
         return new StreamIterable<>(stream);
     }
 
