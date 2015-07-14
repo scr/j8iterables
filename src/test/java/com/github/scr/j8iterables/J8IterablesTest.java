@@ -13,6 +13,7 @@ import java.util.stream.Stream;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
@@ -171,5 +172,10 @@ public class J8IterablesTest {
         List<Integer> collectedList = J8Iterables.peek(Arrays.asList(1, 2, 3), peekingCollector::add)
                 .toList();
         assertThat(peekingCollector, is(collectedList));
+    }
+
+    @Test
+    public void testCoverageTrickForUtilityClass() throws Exception {
+        assertThat(new J8Iterables(), notNullValue());
     }
 }

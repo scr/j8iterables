@@ -1,5 +1,6 @@
 package com.github.scr.j8iterables;
 
+import com.google.common.annotations.VisibleForTesting;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Iterator;
@@ -12,6 +13,10 @@ import java.util.stream.StreamSupport;
  * @author scr
  */
 public class J8Iterators {
+    @VisibleForTesting
+    J8Iterators() {
+    }
+
     /**
      * Create a Stream from an iterator.
      *

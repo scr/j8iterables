@@ -2,6 +2,7 @@ package com.github.scr.j8iterables;
 
 import com.github.scr.j8iterables.core.ConsumingIdentity;
 import com.github.scr.j8iterables.core.StreamIterable;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.FluentIterable;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,6 +19,10 @@ import java.util.stream.StreamSupport;
  * @author scr
  */
 public class J8Iterables {
+    @VisibleForTesting
+    J8Iterables() {
+    }
+
     /**
      * Collect iterable of iterables into a mutable container.
      *
