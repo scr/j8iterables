@@ -116,7 +116,7 @@ public class J8Iterables {
      * @param combiner    The combiner function
      * @param <T>         The type of elements
      * @param <U>         The reduced type
-     * @return The resduced result
+     * @return The reduced result
      * @see Stream#reduce(Object, BiFunction, BinaryOperator)
      */
     public static <T, U> U reduce(@NotNull Iterable<Iterable<T>> iterables,
@@ -134,11 +134,27 @@ public class J8Iterables {
         return result;
     }
 
+    /**
+     * Peek at the iterable without modifying the result.
+     *
+     * @param iterable The iterable to peek at
+     * @param consumer The peeking function
+     * @param <T>      The type of elements
+     * @return an Iterable that, when traversed will invoke the consumer on each element
+     * @see Stream#peek(Consumer)
+     */
     @NotNull
     public static <T> FluentIterable<T> peek(@NotNull Iterable<T> iterable, @NotNull Consumer<T> consumer) {
         return FluentIterable.from(iterable).transform(peeker(consumer));
     }
 
+    /**
+     * Return a peeking transformer - a UnaryOperator that will send each element to the consumer and return identity.
+     *
+     * @param consumer The peeking function
+     * @param <T>      The type of elements
+     * @return a peeking (non-transforming) transformer
+     */
     @NotNull
     public static <T> ConsumingIdentity<T> peeker(@NotNull Consumer<T> consumer) {
         return new ConsumingIdentity<>(consumer);
