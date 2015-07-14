@@ -1,3 +1,5 @@
+* 1.2.1
+   * Update some javadoc.
 * 1.2.0
    * Move inner classes into core package.
    * Create ConsumingIdentity for peek operation on Iterables.
