@@ -1,12 +1,11 @@
 package com.github.scr.j8iterables;
 
+import com.github.scr.j8iterables.core.StreamIterable;
 import com.google.common.collect.FluentIterable;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.Optional;
-import java.util.Spliterator;
 import java.util.function.*;
 import java.util.stream.Collector;
 import java.util.stream.Stream;

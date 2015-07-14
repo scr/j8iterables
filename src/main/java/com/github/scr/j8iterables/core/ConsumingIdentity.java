@@ -1,4 +1,4 @@
-package com.github.scr.j8iterables;
+package com.github.scr.j8iterables.core;
 
 import org.jetbrains.annotations.NotNull;
 

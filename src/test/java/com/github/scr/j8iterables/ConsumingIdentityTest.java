@@ -1,5 +1,6 @@
 package com.github.scr.j8iterables;
 
+import com.github.scr.j8iterables.core.ConsumingIdentity;
 import org.testng.annotations.Test;
 
 import java.util.concurrent.atomic.AtomicInteger;

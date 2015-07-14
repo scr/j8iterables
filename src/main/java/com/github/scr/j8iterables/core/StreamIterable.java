@@ -1,4 +1,4 @@
-package com.github.scr.j8iterables;
+package com.github.scr.j8iterables.core;
 
 import com.google.common.collect.FluentIterable;
 import org.jetbrains.annotations.NotNull;
@@ -17,7 +17,7 @@ public class StreamIterable<T> extends FluentIterable<T> {
     @NotNull
     private final Stream<T> STREAM;
 
-    StreamIterable(@NotNull Stream<T> stream) {
+    public StreamIterable(@NotNull Stream<T> stream) {
         STREAM = stream;
     }
 
