@@ -81,8 +81,9 @@ public class J8Iterables {
             if (!foundAny) {
                 foundAny = true;
                 result = element;
-            } else
+            } else {
                 result = accumulator.apply(result, element);
+            }
         }
         return foundAny ? Optional.of(result) : Optional.empty();
     }

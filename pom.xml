@@ -6,7 +6,7 @@
 
     <groupId>com.github.scr</groupId>
     <artifactId>j8iterables</artifactId>
-    <version>1.2.2-SNAPSHOT</version>
+    <version>1.2.1</version>
 
     <name>Java 8 Iterables</name>
     <description>Extension of Guava Iterables using Java 8 Collections and Streams</description>
@@ -55,6 +55,17 @@
                     <compilerVersion>1.8</compilerVersion>
                     <source>1.8</source>
                     <target>1.8</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.5</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
                 </configuration>
             </plugin>
             <plugin>
