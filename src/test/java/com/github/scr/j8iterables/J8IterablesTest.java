@@ -123,4 +123,27 @@ public class J8IterablesTest {
         });
         assertThat(atomicInteger.get(), not(0));
     }
+
+    @Test
+    public void testFromStreamToStream() throws Exception {
+        Stream<Integer> stream = Stream.of(1, 2, 3);
+        Iterable<Integer> iterable = J8Iterables.fromStream(stream);
+        Stream<Integer> stream2 = J8Iterables.toStream(iterable);
+        AtomicInteger atomicInteger = new AtomicInteger(0);
+        stream2.forEachOrdered(i -> {
+            assertThat(i, is(atomicInteger.addAndGet(1)));
+        });
+        assertThat(atomicInteger.get(), not(0));
+    }
+
+    @Test
+    public void testNonContainerIterableToStream() throws Exception {
+        Iterable<Integer> iterable = Iterables.concat(Arrays.asList(1, 2), Collections.singleton(3));
+        Stream<Integer> stream = J8Iterables.toStream(iterable);
+        AtomicInteger atomicInteger = new AtomicInteger(0);
+        iterable.forEach(i -> {
+            assertThat(i, is(atomicInteger.addAndGet(1)));
+        });
+        assertThat(atomicInteger.get(), not(0));
+    }
 }

@@ -1,5 +1,7 @@
 package com.github.scr.j8iterables;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Optional;
@@ -20,21 +22,24 @@ public class J8Iterables {
      *
      * @param <T> The type of elements
      */
-    public static class StreamIterable<T> implements Iterable<T> {
+    static class StreamIterable<T> implements Iterable<T> {
+        @NotNull
         private final Stream<T> STREAM;
 
-        StreamIterable(Stream<T> stream) {
+        StreamIterable(@NotNull Stream<T> stream) {
             STREAM = stream;
         }
 
+        @NotNull
         public Iterator<T> iterator() {
             return STREAM.iterator();
         }
 
-        public void forEach(Consumer<? super T> action) {
+        public void forEach(@NotNull Consumer<? super T> action) {
             STREAM.forEach(action);
         }
 
+        @NotNull
         public Spliterator<T> spliterator() {
             return STREAM.spliterator();
         }
@@ -52,9 +57,10 @@ public class J8Iterables {
      * @return Collected result
      * @see Stream#collect(Supplier, BiConsumer, BiConsumer)
      */
-    public static <T, R> R collect(Iterable<Iterable<T>> iterables, Supplier<R> supplier,
-                                   BiConsumer<R, ? super T> accumulator,
-                                   BiConsumer<R, R> combiner) {
+    public static <T, R> R collect(@NotNull Iterable<Iterable<T>> iterables,
+                                   @NotNull Supplier<R> supplier,
+                                   @NotNull BiConsumer<R, ? super T> accumulator,
+                                   @NotNull BiConsumer<R, R> combiner) {
         R result = supplier.get();
         for (Iterable<T> iterable : iterables) {
             R innerResult = supplier.get();
@@ -77,7 +83,7 @@ public class J8Iterables {
      * @return Collected result
      * @see Stream#collect(Collector)
      */
-    public static <T, A, R> R collect(Iterable<T> iterable, Collector<? super T, A, R> collector) {
+    public static <T, A, R> R collect(@NotNull Iterable<T> iterable, @NotNull Collector<? super T, A, R> collector) {
         A container = collector.supplier().get();
         BiConsumer<A, ? super T> accumulator = collector.accumulator();
         for (T t : iterable) {
@@ -95,7 +101,7 @@ public class J8Iterables {
      * @return The reduced result
      * @see Stream#reduce(BinaryOperator)
      */
-    public static <T> Optional<T> reduce(Iterable<T> iterable, BinaryOperator<T> accumulator) {
+    public static <T> Optional<T> reduce(@NotNull Iterable<T> iterable, @NotNull BinaryOperator<T> accumulator) {
         boolean foundAny = false;
         T result = null;
         for (T element : iterable) {
@@ -118,9 +124,9 @@ public class J8Iterables {
      * @return The reduced result
      * @see Stream#reduce(Object, BinaryOperator)
      */
-    public static <T> T reduce(Iterable<T> iterable,
+    public static <T> T reduce(@NotNull Iterable<T> iterable,
                                T identity,
-                               BinaryOperator<T> accumulator) {
+                               @NotNull BinaryOperator<T> accumulator) {
         T result = identity;
         for (T element : iterable) {
             result = accumulator.apply(result, element);
@@ -140,10 +146,10 @@ public class J8Iterables {
      * @return The resduced result
      * @see Stream#reduce(Object, BiFunction, BinaryOperator)
      */
-    public static <T, U> U reduce(Iterable<Iterable<T>> iterables,
+    public static <T, U> U reduce(@NotNull Iterable<Iterable<T>> iterables,
                                   U identity,
-                                  BiFunction<U, ? super T, U> accumulator,
-                                  BinaryOperator<U> combiner) {
+                                  @NotNull BiFunction<U, ? super T, U> accumulator,
+                                  @NotNull BinaryOperator<U> combiner) {
         U result = identity;
         for (Iterable<T> iterable : iterables) {
             U innerResult = identity;
@@ -162,7 +168,8 @@ public class J8Iterables {
      * @param <T>    The type of elements
      * @return Iterable from the given stream
      */
-    public static <T> StreamIterable<T> fromStream(Stream<T> stream) {
+    @NotNull
+    public static <T> StreamIterable<T> fromStream(@NotNull Stream<T> stream) {
         return new StreamIterable<>(stream);
     }
 
@@ -173,7 +180,8 @@ public class J8Iterables {
      * @param <T>      The type of elements
      * @return Stream from the given iterable
      */
-    public static <T> Stream<T> toStream(Iterable<T> iterable) {
+    @NotNull
+    public static <T> Stream<T> toStream(@NotNull Iterable<T> iterable) {
         if (iterable instanceof Collection) {
             return ((Collection<T>) iterable).stream();
         }
