@@ -1,5 +1,6 @@
 package com.github.scr.j8iterables;
 
+import com.github.scr.j8iterables.core.ConsumingIdentity;
 import com.github.scr.j8iterables.core.StreamIterable;
 import com.google.common.collect.FluentIterable;
 import org.jetbrains.annotations.NotNull;
@@ -131,6 +132,16 @@ public class J8Iterables {
             result = combiner.apply(result, innerResult);
         }
         return result;
+    }
+
+    @NotNull
+    public static <T> FluentIterable<T> peek(@NotNull Iterable<T> iterable, @NotNull Consumer<T> consumer) {
+        return FluentIterable.from(iterable).transform(peeker(consumer));
+    }
+
+    @NotNull
+    public static <T> ConsumingIdentity<T> peeker(@NotNull Consumer<T> consumer) {
+        return new ConsumingIdentity<>(consumer);
     }
 
     /**

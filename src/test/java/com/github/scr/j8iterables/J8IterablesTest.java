@@ -1,5 +1,6 @@
 package com.github.scr.j8iterables;
 
+import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Iterables;
 import org.apache.commons.lang3.tuple.Pair;
 import org.testng.annotations.Test;
@@ -153,5 +154,22 @@ public class J8IterablesTest {
         J8Iterables.fromStream(stream)
                 .filter(x -> x == 2)
                 .size();
+    }
+
+    @Test
+    public void testPeeker() throws Exception {
+        List<Integer> peekingCollector = new ArrayList<>();
+        List<Integer> collectedList = FluentIterable.from(Arrays.asList(1, 2, 3))
+                .transform(J8Iterables.peeker(peekingCollector::add))
+                .toList();
+        assertThat(peekingCollector, is(collectedList));
+    }
+
+    @Test
+    public void testPeek() throws Exception {
+        List<Integer> peekingCollector = new ArrayList<>();
+        List<Integer> collectedList = J8Iterables.peek(Arrays.asList(1, 2, 3), peekingCollector::add)
+                .toList();
+        assertThat(peekingCollector, is(collectedList));
     }
 }
