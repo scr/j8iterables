@@ -19,34 +19,6 @@ import java.util.stream.StreamSupport;
  */
 public class J8Iterables {
     /**
-     * Proxy class that converts a stream, which implements all of Iterable's methods to an Iterable.
-     *
-     * @param <T> The type of elements
-     */
-    static class StreamIterable<T> extends FluentIterable<T> {
-        @NotNull
-        private final Stream<T> STREAM;
-
-        StreamIterable(@NotNull Stream<T> stream) {
-            STREAM = stream;
-        }
-
-        @NotNull
-        public Iterator<T> iterator() {
-            return STREAM.iterator();
-        }
-
-        public void forEach(@NotNull Consumer<? super T> action) {
-            STREAM.forEach(action);
-        }
-
-        @NotNull
-        public Spliterator<T> spliterator() {
-            return STREAM.spliterator();
-        }
-    }
-
-    /**
      * Collect iterable of iterables into a mutable container.
      *
      * @param iterables   The iterable of iterables
