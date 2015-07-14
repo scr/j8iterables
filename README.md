@@ -11,7 +11,16 @@ Guava's `FluentIterable` class provides very similar composibility constructs an
 
 Finally, going between the two constructs (Stream and Iterable) isn't incredibly easy though it can be.
 
-## Examples
+## Usage: Maven dependency
+```
+<dependency>
+  <groupId>com.github.scr</groupId>
+  <artifactId>j8iterables</artifactId>
+  <version>1.0.1</version>
+</dependency>
+```
+
+## Usage: Examples
 
 ### Enhanced for loop on stream
 ```
@@ -39,13 +48,4 @@ List<Integer> collectingList = new ArrayList<>();
 List<Integer> result = J8Iterables.peek(input, collectingList::add)
     .toList();
 Assert.assertEquals(result, collectingList);
-```
-
-### Maven dependency
-```
-<dependency>
-  <groupId>com.github.scr</groupId>
-  <artifactId>j8iterables</artifactId>
-  <version>1.0.1</version>
-</dependency>
 ```
