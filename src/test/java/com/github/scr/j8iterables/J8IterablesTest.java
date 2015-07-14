@@ -142,7 +142,7 @@ public class J8IterablesTest {
         Iterable<Integer> iterable = Iterables.concat(Arrays.asList(1, 2), Collections.singleton(3));
         Stream<Integer> stream = J8Iterables.toStream(iterable);
         AtomicInteger atomicInteger = new AtomicInteger(0);
-        iterable.forEach(i -> {
+        stream.forEach(i -> {
             assertThat(i, is(atomicInteger.addAndGet(1)));
         });
         assertThat(atomicInteger.get(), not(0));
