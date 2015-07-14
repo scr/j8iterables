@@ -8,8 +8,8 @@ import java.util.stream.StreamSupport;
 
 /**
  * Utility methods to extend Iterators with Java 8 Stream.
- * <p/>
- * Created by scr on 7/13/15.
+ *
+ * @author scr
  */
 public class J8Iterators {
     /**

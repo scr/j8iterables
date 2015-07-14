@@ -13,8 +13,8 @@ import java.util.stream.StreamSupport;
 
 /**
  * Utility methods to extend Guava Iterables with Java 8 Stream-like classes such as Collectors.
- * <p/>
- * Created by scr on 7/12/15.
+ *
+ * @author scr
  */
 public class J8Iterables {
     /**
