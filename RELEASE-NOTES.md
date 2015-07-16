@@ -1,4 +1,4 @@
-* 1.2.2
+* 1.3.0
    * Added ends() - facility to get both the first and last in an Iterable or Iterator.
 * 1.2.1
    * Update some javadoc.
