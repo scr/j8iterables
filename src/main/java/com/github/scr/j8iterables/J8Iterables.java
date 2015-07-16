@@ -146,7 +146,7 @@ public class J8Iterables {
      *
      * @param iterable The iterable to get the ends from
      * @param <T>      The type of element in the iterable
-     * @return optional {@link Ends<T>} with the first and last of the iterable
+     * @return optional {@link Ends} with the first and last of the iterable
      */
     @NotNull
     public static <T> Optional<Ends<T>> ends(@NotNull Iterable<T> iterable) {
