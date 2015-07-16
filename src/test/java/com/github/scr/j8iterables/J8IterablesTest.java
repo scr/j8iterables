@@ -1,19 +1,18 @@
 package com.github.scr.j8iterables;
 
+import com.github.scr.j8iterables.core.Ends;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Iterables;
 import org.apache.commons.lang3.tuple.Pair;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
@@ -177,5 +176,25 @@ public class J8IterablesTest {
     @Test
     public void testCoverageTrickForUtilityClass() throws Exception {
         assertThat(new J8Iterables(), notNullValue());
+    }
+
+    @DataProvider(name = "endIterables")
+    public static Object[][] endIterables() {
+        return new Object[][]{
+                {"empty", Collections.emptyList(), Optional.empty()},
+                {"one", Collections.singleton(1), Optional.of(Ends.of(1, 1))},
+                {"two", Arrays.asList(1, 2), Optional.of(Ends.of(1, 2))},
+                {"three", Arrays.asList(1, 2, 3), Optional.of(Ends.of(1, 3))},
+        };
+    }
+
+    @Test(dataProvider = "endIterables")
+    public <T> void testGetEnds(String desc, Iterable<T> iterable, Optional<Ends<T>> expectedEnds) throws Exception {
+        Optional<Ends<T>> ends = J8Iterables.ends(iterable);
+        assertThat(desc, ends, is(expectedEnds));
+        if (ends.isPresent() && expectedEnds.isPresent()) {
+            assertThat(ends.get().getFirst(), is(expectedEnds.get().getFirst()));
+            assertThat(ends.get().getLast(), is(expectedEnds.get().getLast()));
+        }
     }
 }

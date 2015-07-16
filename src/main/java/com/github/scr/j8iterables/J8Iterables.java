@@ -1,6 +1,7 @@
 package com.github.scr.j8iterables;
 
 import com.github.scr.j8iterables.core.ConsumingIdentity;
+import com.github.scr.j8iterables.core.Ends;
 import com.github.scr.j8iterables.core.StreamIterable;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.FluentIterable;
@@ -138,6 +139,18 @@ public class J8Iterables {
             result = combiner.apply(result, innerResult);
         }
         return result;
+    }
+
+    /**
+     * Return the first and last elements or {@link Optional#empty()} if {@code Iterables.isEmpty(iterable)}.
+     *
+     * @param iterable The iterable to get the ends from
+     * @param <T>      The type of element in the iterable
+     * @return optional {@link Ends<T>} with the first and last of the iterable
+     */
+    @NotNull
+    public static <T> Optional<Ends<T>> ends(@NotNull Iterable<T> iterable) {
+        return J8Iterators.ends(iterable.iterator());
     }
 
     /**
