@@ -197,4 +197,9 @@ public class J8IterablesTest {
             assertThat(ends.get().getLast(), is(expectedEnds.get().getLast()));
         }
     }
+
+    @Test
+    public void testEmptyIterable() throws Exception {
+        assertThat("emptyIterable is empty", J8Iterables.emptyIterable().isEmpty());
+    }
 }
