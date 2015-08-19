@@ -31,6 +31,20 @@ for (Integer integer : J8Iterables.fromStream(theStream)) {
 }
 ```
 
+### Empty Iterable
+```
+return J8Iterables.emptyIterable();
+```
+
+### Finding ends of an Iterable
+```
+Optional<Ends<Integer>> ends = J8Iterables.ends(iterable);
+if (!ends.isPresent()) {
+    // Error case?
+}
+Integer first = ends.get().getFirst(), last = ends.get().getLast();
+```
+
 ### Partitioning & reducing as sum
 ```
 Iterable<Integer> input = Arrays.asList(1, 2, 3, 4);
