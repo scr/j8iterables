@@ -42,7 +42,7 @@ Optional<Ends<Integer>> ends = J8Iterables.ends(iterable);
 if (!ends.isPresent()) {
     // Error case?
 }
-Integer first = ends.get().getFirst(), last = ends.get().getLast();
+int first = ends.get().getFirst(), last = ends.get().getLast();
 ```
 
 ### Partitioning & reducing as sum
