@@ -2,6 +2,7 @@ package com.github.scr.j8iterables;
 
 import com.github.scr.j8iterables.core.ConsumingIdentity;
 import com.github.scr.j8iterables.core.Ends;
+import com.github.scr.j8iterables.core.PeekIterator;
 import com.github.scr.j8iterables.core.StreamIterable;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.FluentIterable;
@@ -175,8 +176,13 @@ public class J8Iterables {
      * @see Stream#peek(Consumer)
      */
     @NotNull
-    public static <T> FluentIterable<T> peek(@NotNull Iterable<T> iterable, @NotNull Consumer<T> consumer) {
-        return FluentIterable.from(iterable).transform(peeker(consumer));
+    public static <T> FluentIterable<T> peek(@NotNull Iterable<T> iterable, @NotNull Consumer<? super T> consumer) {
+        return new FluentIterable<T>() {
+            @Override
+            public Iterator<T> iterator() {
+                return new PeekIterator<>(iterable.iterator(), consumer);
+            }
+        };
     }
 
     /**
