@@ -235,4 +235,18 @@ public class J8Iterables {
     public static <T> FluentIterable<T> emptyIterable() {
         return (FluentIterable<T>) EMPTY_ITERABLE;
     }
+
+    /**
+     * Create a FluentIterable for elements.
+     *
+     * Provides a wrapper to help where {@link FluentIterable} falls short - no varargs static constructor for testing.
+     *
+     * @param elements the elements to iterate over
+     * @param <T>      the type of elements
+     * @return a FluentIterable for elements
+     */
+    @SafeVarargs
+    public static <T> FluentIterable<T> of(T... elements) {
+        return FluentIterable.of(elements);
+    }
 }
