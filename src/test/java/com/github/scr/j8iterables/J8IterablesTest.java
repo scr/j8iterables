@@ -234,4 +234,9 @@ public class J8IterablesTest {
         assertThat(outputList, is(Arrays.asList(1, 2, 3)));
         assertThat(inputList, is(Collections.emptyList()));
     }
+
+    @Test
+    public void testOf() throws Exception {
+        assertThat(J8Iterables.of(1, 2, 3).toList(), is(Arrays.asList(1, 2, 3)));
+    }
 }

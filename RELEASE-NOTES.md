@@ -1,3 +1,5 @@
+* 1.6.0
+   * Add `of(E... elements)` method to help create `FluentIterable` for testing, etc.
 * 1.5.0
    * Improve `J8Iterables.peek` by making a `PeekIterator` class instead of faking Guava's transform to return identity.
    * Provide `J8Iterators.peek` as well as the `J8Iterables` version.
