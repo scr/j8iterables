@@ -6,9 +6,7 @@ import com.google.common.collect.Lists;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Stream;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -46,5 +44,19 @@ public class J8IteratorsTest {
             assertThat(ends.get().getFirst(), is(expectedEnds.get().getFirst()));
             assertThat(ends.get().getLast(), is(expectedEnds.get().getLast()));
         }
+    }
+
+    @Test
+    public void testPeek() throws Exception {
+        List<Integer> input = Arrays.asList(1, 2, 3);
+        List<Integer> peekedOutput = new ArrayList<>();
+        List<Integer> output = new ArrayList<>();
+
+        Iterator<Integer> inputIterator = input.iterator();
+        Iterator<Integer> peekingIterator = J8Iterators.peek(inputIterator, e -> peekedOutput.add(e + 1));
+        peekingIterator.forEachRemaining(output::add);
+
+        assertThat(peekedOutput, is(Arrays.asList(2, 3, 4)));
+        assertThat(output, is(Arrays.asList(1, 2, 3)));
     }
 }

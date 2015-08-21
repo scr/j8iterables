@@ -1,3 +1,6 @@
+* 1.5.0
+   * Improve `J8Iterables.peek` by making a `PeekIterator` class instead of faking Guava's transform to return identity.
+   * Provide `J8Iterators.peek` as well as the `J8Iterables` version.
 * 1.4.0
    * Added `J8Iterables.emptyIterable()` method to get an empty FluentIterable.
 * 1.3.0

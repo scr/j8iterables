@@ -1,5 +1,6 @@
 package com.github.scr.j8iterables;
 
+import com.beust.jcommander.internal.Lists;
 import com.github.scr.j8iterables.core.Ends;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Iterables;
@@ -201,5 +202,36 @@ public class J8IterablesTest {
     @Test
     public void testEmptyIterable() throws Exception {
         assertThat("emptyIterable is empty", J8Iterables.emptyIterable().isEmpty());
+    }
+
+    @Test
+    public void testForEachRemaining() throws Exception {
+        List<Integer> inputList = Arrays.asList(1, 2, 3);
+        List<Integer> outputList = new ArrayList<>();
+        List<Integer> outputList2 = new ArrayList<>();
+        Iterator<Integer> iterator = J8Iterables.peek(inputList, outputList::add).iterator();
+        iterator.forEachRemaining(outputList2::add);
+        assertThat(outputList, is(Arrays.asList(1, 2, 3)));
+        assertThat(outputList2, is(Arrays.asList(1, 2, 3)));
+    }
+
+    @Test
+    public void testPeekWithRemove() throws Exception {
+        List<Integer> inputList = new ArrayList<>(Arrays.asList(1, 2, 3));
+        List<Integer> outputList = new ArrayList<>();
+
+        // before
+        assertThat(inputList, is(Arrays.asList(1, 2, 3)));
+        assertThat(outputList, is(Collections.emptyList()));
+
+        Iterator<Integer> iterator = J8Iterables.peek(inputList, outputList::add).iterator();
+        while (iterator.hasNext()) {
+            iterator.next();
+            iterator.remove();
+        }
+
+        // after
+        assertThat(outputList, is(Arrays.asList(1, 2, 3)));
+        assertThat(inputList, is(Collections.emptyList()));
     }
 }
