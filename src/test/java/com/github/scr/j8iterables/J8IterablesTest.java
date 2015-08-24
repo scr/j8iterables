@@ -1,6 +1,5 @@
 package com.github.scr.j8iterables;
 
-import com.beust.jcommander.internal.Lists;
 import com.github.scr.j8iterables.core.Ends;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Iterables;
@@ -238,5 +237,25 @@ public class J8IterablesTest {
     @Test
     public void testOf() throws Exception {
         assertThat(J8Iterables.of(1, 2, 3).toList(), is(Arrays.asList(1, 2, 3)));
+    }
+
+    @Test
+    public void testReverseList() throws Exception {
+        assertThat(J8Iterables.reverse(Arrays.asList(1, 2, 3)).toList(), is(Arrays.asList(3, 2, 1)));
+    }
+
+    @Test
+    public void testReverseDeque() throws Exception {
+        assertThat(J8Iterables.reverse(new ArrayDeque<>(Arrays.asList(1, 2, 3))).toList(), is(Arrays.asList(3, 2, 1)));
+    }
+
+    @Test
+    public void testReverseSortedSet() throws Exception {
+        assertThat(J8Iterables.reverse(new TreeSet<>(Arrays.asList(2, 1, 3))).toList(), is(Arrays.asList(3, 2, 1)));
+    }
+
+    @Test
+    public void testReverseRegularIterable() throws Exception {
+        assertThat(J8Iterables.reverse(J8Iterables.of(1, 2, 3)).toList(), is(Arrays.asList(3, 2, 1)));
     }
 }
