@@ -1,3 +1,5 @@
+* 1.7.0
+   * Add `reverse` method to reverse various collections or fallback to Iterable.
 * 1.6.0
    * Add `of(E... elements)` method to help create `FluentIterable` for testing, etc.
 * 1.5.0
