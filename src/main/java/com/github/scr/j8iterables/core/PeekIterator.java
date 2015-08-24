@@ -4,6 +4,7 @@ import com.google.common.collect.FluentIterable;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Iterator;
+import java.util.ListIterator;
 import java.util.function.Consumer;
 
 /**

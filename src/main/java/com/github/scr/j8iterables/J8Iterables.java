@@ -1,17 +1,12 @@
 package com.github.scr.j8iterables;
 
-import com.github.scr.j8iterables.core.ConsumingIdentity;
-import com.github.scr.j8iterables.core.Ends;
-import com.github.scr.j8iterables.core.PeekIterator;
-import com.github.scr.j8iterables.core.StreamIterable;
+import com.github.scr.j8iterables.core.*;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.FluentIterable;
+import com.google.common.collect.Iterables;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.*;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
@@ -248,5 +243,53 @@ public class J8Iterables {
     @SafeVarargs
     public static <T> FluentIterable<T> of(T... elements) {
         return FluentIterable.of(elements);
+    }
+
+    /**
+     * Reverse the given {@code iterable}.
+     *
+     * @param iterable an iterable to reverse
+     * @param <T>          the type of elements
+     * @return an iterable that reverses the navigableSet
+     */
+    public static <T> FluentIterable<T> reverse(Iterable<? extends T> iterable) {
+        // If it's already reversable, return it.
+        if (iterable instanceof NavigableSet) {
+            @SuppressWarnings("unchecked")
+            NavigableSet<T> navigableSet = (NavigableSet<T>) iterable;
+            return new FluentIterable<T>() {
+                @Override
+                public Iterator<T> iterator() {
+                    return navigableSet.descendingIterator();
+                }
+            };
+        } else if (iterable instanceof Deque) {
+            @SuppressWarnings("unchecked")
+            Deque<T> deque = (Deque<T>) iterable;
+            return new FluentIterable<T>() {
+                @Override
+                public Iterator<T> iterator() {
+                    return deque.descendingIterator();
+                }
+            };
+        } else if (iterable instanceof List) {
+            @SuppressWarnings("unchecked")
+            List<T> list = (List<T>) iterable;
+            return new FluentIterable<T>() {
+                @Override
+                public Iterator<T> iterator() {
+                    return J8Iterators.reverse(list.listIterator(list.size()));
+                }
+            };
+        }
+        // Slurp everything into a deque and then reverse its order.
+        Deque<T> deque = new ArrayDeque<>();
+        Iterables.addAll(deque, iterable);
+        return new FluentIterable<T>() {
+            @Override
+            public Iterator<T> iterator() {
+                return deque.descendingIterator();
+            }
+        };
     }
 }
