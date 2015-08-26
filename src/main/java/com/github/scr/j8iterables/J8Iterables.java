@@ -249,7 +249,7 @@ public class J8Iterables {
      * Reverse the given {@code iterable}.
      *
      * @param iterable an iterable to reverse
-     * @param <T>          the type of elements
+     * @param <T>      the type of elements
      * @return an iterable that reverses the navigableSet
      */
     public static <T> FluentIterable<T> reverse(Iterable<? extends T> iterable) {
@@ -257,39 +257,34 @@ public class J8Iterables {
         if (iterable instanceof NavigableSet) {
             @SuppressWarnings("unchecked")
             NavigableSet<T> navigableSet = (NavigableSet<T>) iterable;
-            return new FluentIterable<T>() {
-                @Override
-                public Iterator<T> iterator() {
-                    return navigableSet.descendingIterator();
-                }
-            };
+            return fromSupplier(navigableSet::descendingIterator);
         } else if (iterable instanceof Deque) {
             @SuppressWarnings("unchecked")
             Deque<T> deque = (Deque<T>) iterable;
-            return new FluentIterable<T>() {
-                @Override
-                public Iterator<T> iterator() {
-                    return deque.descendingIterator();
-                }
-            };
+            return fromSupplier(deque::descendingIterator);
         } else if (iterable instanceof List) {
             @SuppressWarnings("unchecked")
             List<T> list = (List<T>) iterable;
-            return new FluentIterable<T>() {
-                @Override
-                public Iterator<T> iterator() {
-                    return J8Iterators.reverse(list.listIterator(list.size()));
-                }
-            };
+            return fromSupplier(() -> J8Iterators.reverse(list.listIterator(list.size())));
         }
         // Slurp everything into a deque and then reverse its order.
-        Deque<T> deque = new ArrayDeque<>();
-        Iterables.addAll(deque, iterable);
-        return new FluentIterable<T>() {
-            @Override
-            public Iterator<T> iterator() {
-                return deque.descendingIterator();
-            }
-        };
+        return fromSupplier(() -> {
+            Deque<T> deque = new ArrayDeque<>();
+            Iterables.addAll(deque, iterable);
+            return deque.descendingIterator();
+        });
+    }
+
+    /**
+     * Create a {@link FluentIterable} from the given {@link Supplier}.
+     *
+     * @param supplier the supplier
+     * @param <T>      the type of elements of the supplied iterable
+     * @return an iterable
+     */
+    public static <T> SupplierIterable<T> fromSupplier(Supplier<Iterator<? extends T>> supplier) {
+        @SuppressWarnings("unchecked")
+        Supplier<Iterator<T>> tSupplier = (Supplier<Iterator<T>>) (Supplier) supplier;
+        return new SupplierIterable<>(tSupplier);
     }
 }
