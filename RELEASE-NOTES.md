@@ -1,3 +1,5 @@
+* 1.7.1
+   * For non-Collection Iterables, reverse every time iterator() is called so that it changes with the delegate.
 * 1.7.0
    * Add `reverse` method to reverse various collections or fallback to Iterable.
 * 1.6.0
