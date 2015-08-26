@@ -21,12 +21,7 @@ public class J8Iterables {
     /**
      * The empty iterable to be shared across calls to {@link #emptyIterable()}.
      */
-    public static final FluentIterable EMPTY_ITERABLE = new FluentIterable() {
-        @Override
-        public Iterator iterator() {
-            return Collections.emptyIterator();
-        }
-    };
+    public static final FluentIterable EMPTY_ITERABLE = fromSupplier(Collections::emptyIterator);
 
     @VisibleForTesting
     J8Iterables() {
@@ -172,12 +167,7 @@ public class J8Iterables {
      */
     @NotNull
     public static <T> FluentIterable<T> peek(@NotNull Iterable<T> iterable, @NotNull Consumer<? super T> consumer) {
-        return new FluentIterable<T>() {
-            @Override
-            public Iterator<T> iterator() {
-                return new PeekIterator<>(iterable.iterator(), consumer);
-            }
-        };
+        return fromSupplier(() -> new PeekIterator<>(iterable.iterator(), consumer));
     }
 
     /**
