@@ -68,22 +68,25 @@ Assert.assertEquals(result, collectingList);
 ```
 // NodeList has a method elements() that returns a NodeIterator, which is not a java.util.Iterator!
 org.htmlparser.NodeList childrenNodeList = node.getChildren();
-Iterable<Node> children = J8Iterables.fromSupplier(() -> new Iterator<Node>() {
-    @Override
-    public boolean hasNext() {
-        try {
-            return NODE_ITERATOR.hasMoreNodes();
-        } catch (ParserException e) {
-            return false;
+Iterable<Node> children = J8Iterables.fromSupplier(() -> {
+    final NodeIterator NODE_ITERATOR = childrenNodeList.elements();
+    return new Iterator<Node>() {
+        @Override
+        public boolean hasNext() {
+            try {
+                return NODE_ITERATOR.hasMoreNodes();
+            } catch (ParserException e) {
+                return false;
+            }
         }
-    }
-    @Override
-    public boolean next() {
-        try {
-            return NODE_ITERATOR.nextNode();
-        } catch (ParserException e) {
-            return false;
+        @Override
+        public boolean next() {
+            try {
+                return NODE_ITERATOR.nextNode();
+            } catch (ParserException e) {
+                return false;
+            }
         }
-    }
+    };
 });
 ```
