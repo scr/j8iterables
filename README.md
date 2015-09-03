@@ -89,4 +89,9 @@ Iterable<Node> children = J8Iterables.fromSupplier(() -> {
         }
     };
 });
+
+// Then just use as usual:
+for (Node child : children) {
+    // Do something interesting!
+}
 ```
