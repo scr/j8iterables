@@ -63,3 +63,27 @@ List<Integer> result = J8Iterables.peek(input, collectingList::add)
     .toList();
 Assert.assertEquals(result, collectingList);
 ```
+
+### Creating an iterable from a supplier of an iterator
+```
+// NodeList has a method elements() that returns a NodeIterator, which is not a java.util.Iterator!
+org.htmlparser.NodeList childrenNodeList = node.getChildren();
+Iterable<Node> children = J8Iterables.fromSupplier(() -> new Iterator<Node>() {
+    @Override
+    public boolean hasNext() {
+        try {
+            return NODE_ITERATOR.hasMoreNodes();
+        } catch (ParserException e) {
+            return false;
+        }
+    }
+    @Override
+    public boolean next() {
+        try {
+            return NODE_ITERATOR.nextNode();
+        } catch (ParserException e) {
+            return false;
+        }
+    }
+});
+```
