@@ -16,7 +16,7 @@ Finally, going between the two constructs (Stream and Iterable) isn't incredibly
 <dependency>
   <groupId>com.github.scr</groupId>
   <artifactId>j8iterables</artifactId>
-  <version>1.2.1</version>
+  <version>1.7.1</version>
 </dependency>
 ```
 
