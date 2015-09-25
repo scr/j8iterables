@@ -28,6 +28,10 @@ public class Ends<T> {
         return last;
     }
 
+    boolean areUnique() {
+        return first != last;
+    }
+
     public static <T> Ends<T> of(T first, T last) {
         return new Ends<>(first, last);
     }

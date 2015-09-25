@@ -1,3 +1,5 @@
+* 1.7.2
+   * Added `Ends.areUnique()` to distinguish when first and last are different from each other.
 * 1.7.1
    * For non-Collection Iterables, reverse every time iterator() is called so that it changes with the delegate.
 * 1.7.0
