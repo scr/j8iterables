@@ -1,3 +1,5 @@
+* 1.7.3
+   * Made `Ends.areUnique()` public.
 * 1.7.2
    * Added `Ends.areUnique()` to distinguish when first and last are different from each other.
 * 1.7.1
