@@ -272,9 +272,54 @@ public class J8Iterables {
      * @param <T>      the type of elements of the supplied iterable
      * @return an iterable
      */
-    public static <T> SupplierIterable<T> fromSupplier(Supplier<Iterator<? extends T>> supplier) {
+    public static <T> SupplierIterable<T> fromSupplier(@NotNull Supplier<Iterator<? extends T>> supplier) {
         @SuppressWarnings("unchecked")
         Supplier<Iterator<T>> tSupplier = (Supplier<Iterator<T>>) (Supplier) supplier;
         return new SupplierIterable<>(tSupplier);
+    }
+
+    public static <T> J8PrimitiveIterable.OfDouble mapToDouble(
+            @NotNull Iterable<T> iterable, @NotNull ToDoubleFunction<T> toDoubleFunction) {
+        return new J8PrimitiveIterable.OfDouble() {
+            @Override
+            public PrimitiveIterator.OfDouble primitiveIterator() {
+                return J8Iterators.mapToDouble(iterable.iterator(), toDoubleFunction);
+            }
+
+            @Override
+            public Spliterator.OfDouble primitiveSpliterator() {
+                return J8Spliterators.mapToDouble(iterable.spliterator(), toDoubleFunction);
+            }
+        };
+    }
+
+    public static <T> J8PrimitiveIterable.OfInt mapToInt(
+            @NotNull Iterable<T> iterable, @NotNull ToIntFunction<T> toIntFunction) {
+        return new J8PrimitiveIterable.OfInt() {
+            @Override
+            public PrimitiveIterator.OfInt primitiveIterator() {
+                return J8Iterators.mapToInt(iterable.iterator(), toIntFunction);
+            }
+
+            @Override
+            public Spliterator.OfInt primitiveSpliterator() {
+                return J8Spliterators.mapToInt(iterable.spliterator(), toIntFunction);
+            }
+        };
+    }
+
+    public static <T> J8PrimitiveIterable.OfLong mapToLong(
+            @NotNull Iterable<T> iterable, @NotNull ToLongFunction<T> toLongFunction) {
+        return new J8PrimitiveIterable.OfLong() {
+            @Override
+            public PrimitiveIterator.OfLong primitiveIterator() {
+                return J8Iterators.mapToLong(iterable.iterator(), toLongFunction);
+            }
+
+            @Override
+            public Spliterator.OfLong primitiveSpliterator() {
+                return J8Spliterators.mapToLong(iterable.spliterator(), toLongFunction);
+            }
+        };
     }
 }

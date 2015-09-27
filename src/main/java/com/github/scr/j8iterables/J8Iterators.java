@@ -1,8 +1,6 @@
 package com.github.scr.j8iterables;
 
-import com.github.scr.j8iterables.core.Ends;
-import com.github.scr.j8iterables.core.PeekIterator;
-import com.github.scr.j8iterables.core.PreviousListIterator;
+import com.github.scr.j8iterables.core.*;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Iterators;
 import org.jetbrains.annotations.NotNull;
@@ -10,7 +8,11 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Iterator;
 import java.util.ListIterator;
 import java.util.Optional;
+import java.util.PrimitiveIterator;
 import java.util.function.Consumer;
+import java.util.function.ToDoubleFunction;
+import java.util.function.ToIntFunction;
+import java.util.function.ToLongFunction;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -68,11 +70,26 @@ public class J8Iterators {
      * Iterate a {@link ListIterator} in reverse order.
      *
      * @param listIterator the list iterator
-     * @param <T> the type of elements
+     * @param <T>          the type of elements
      * @return an iterator that walks the listIterator backwards
      */
     @SuppressWarnings("unchecked")
     public static <T> PreviousListIterator<T> reverse(ListIterator<? extends T> listIterator) {
         return new PreviousListIterator<>((ListIterator<T>) listIterator);
+    }
+
+    public static <T> PrimitiveIterator.OfInt mapToInt(
+            @NotNull Iterator<T> iterator, @NotNull ToIntFunction<T> toIntFunction) {
+        return new ToIntIterator<>(iterator, toIntFunction);
+    }
+
+    public static <T> PrimitiveIterator.OfLong mapToLong(
+            @NotNull Iterator<T> iterator, @NotNull ToLongFunction<T> toLongFunction) {
+        return new ToLongIterator<>(iterator, toLongFunction);
+    }
+
+    public static <T> PrimitiveIterator.OfDouble mapToDouble(
+            @NotNull Iterator<T> iterator, @NotNull ToDoubleFunction<T> toDoubleFunction) {
+        return new ToDoubleIterator<>(iterator, toDoubleFunction);
     }
 }
