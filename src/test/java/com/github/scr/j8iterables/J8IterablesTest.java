@@ -258,4 +258,37 @@ public class J8IterablesTest {
     public void testReverseRegularIterable() throws Exception {
         assertThat(J8Iterables.reverse(J8Iterables.of(1, 2, 3)).toList(), is(Arrays.asList(3, 2, 1)));
     }
+
+    @Test
+    public void testMapToDouble() throws Exception {
+        PrimitiveIterator.OfDouble doubleIterator =
+                J8Iterables.mapToDouble(Arrays.asList(1, 2, 3), Integer::doubleValue).primitiveIterator();
+        double sum = 0;
+        while (doubleIterator.hasNext()) {
+            sum += doubleIterator.nextDouble();
+        }
+        assertThat(sum, is(6d));
+    }
+
+    @Test
+    public void testMapToInt() throws Exception {
+        PrimitiveIterator.OfInt IntIterator =
+                J8Iterables.mapToInt(Arrays.asList(1d, 2d, 3d), Double::intValue).primitiveIterator();
+        int sum = 0;
+        while (IntIterator.hasNext()) {
+            sum += IntIterator.nextInt();
+        }
+        assertThat(sum, is(6));
+    }
+
+    @Test
+    public void testMapToLong() throws Exception {
+        PrimitiveIterator.OfLong LongIterator =
+                J8Iterables.mapToLong(Arrays.asList(1, 2, 3), Integer::longValue).primitiveIterator();
+        long sum = 0;
+        while (LongIterator.hasNext()) {
+            sum += LongIterator.nextLong();
+        }
+        assertThat(sum, is(6L));
+    }
 }
