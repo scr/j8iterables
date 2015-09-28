@@ -8,9 +8,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.function.*;
-import java.util.stream.Collector;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
+import java.util.stream.*;
 
 /**
  * Utility methods to extend Guava Iterables with Java 8 Stream-like classes such as Collectors.
@@ -195,7 +193,7 @@ public class J8Iterables {
     }
 
     /**
-     * Create a Stream from the given Iterable.
+     * Create a {@link Stream} from the given {@link Iterable}.
      *
      * @param iterable The Iterable to use in creating a Stream
      * @param <T>      The type of elements
@@ -208,6 +206,42 @@ public class J8Iterables {
         }
         // TODO(scr): Is it possible to do late-binding (iterable::spliterator)? Need to know characteristics.
         return StreamSupport.stream(iterable.spliterator(), false);
+    }
+
+    /**
+     * Create an {@link DoubleStream} from the given {@code doubleIterable}.
+     *
+     * @param doubleIterable The iterable to use in creating a DoubleStream
+     * @return DoubleStream from the given iterable
+     */
+    @NotNull
+    public static DoubleStream toStream(@NotNull J8PrimitiveIterable.OfDouble doubleIterable) {
+        // TODO(scr): Is it possible to do late-binding (iterable::spliterator)? Need to know characteristics.
+        return StreamSupport.doubleStream(doubleIterable.primitiveSpliterator(), false);
+    }
+
+    /**
+     * Create an {@link IntStream} from the given {@code intIterable}.
+     *
+     * @param intIterable The iterable to use in creating an IntStream
+     * @return IntStream from the given iterable
+     */
+    @NotNull
+    public static IntStream toStream(@NotNull J8PrimitiveIterable.OfInt intIterable) {
+        // TODO(scr): Is it possible to do late-binding (iterable::spliterator)? Need to know characteristics.
+        return StreamSupport.intStream(intIterable.primitiveSpliterator(), false);
+    }
+
+    /**
+     * Create a {@link LongStream} from the given {@code iterable}.
+     *
+     * @param longIterable The iterable to use in creating a LongStream
+     * @return LongStream from the given iterable
+     */
+    @NotNull
+    public static LongStream toStream(@NotNull J8PrimitiveIterable.OfLong longIterable) {
+        // TODO(scr): Is it possible to do late-binding (iterable::spliterator)? Need to know characteristics.
+        return StreamSupport.longStream(longIterable.primitiveSpliterator(), false);
     }
 
     /**

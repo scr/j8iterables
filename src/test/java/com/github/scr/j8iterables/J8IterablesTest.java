@@ -1,6 +1,7 @@
 package com.github.scr.j8iterables;
 
 import com.github.scr.j8iterables.core.Ends;
+import com.github.scr.j8iterables.core.J8PrimitiveIterable;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Iterables;
 import org.apache.commons.lang3.tuple.Pair;
@@ -261,34 +262,38 @@ public class J8IterablesTest {
 
     @Test
     public void testMapToDouble() throws Exception {
-        PrimitiveIterator.OfDouble doubleIterator =
-                J8Iterables.mapToDouble(Arrays.asList(1, 2, 3), Integer::doubleValue).primitiveIterator();
+        J8PrimitiveIterable.OfDouble doubleIterable =
+                J8Iterables.mapToDouble(Arrays.asList(1, 2, 3), Integer::doubleValue);
+        PrimitiveIterator.OfDouble doubleIterator = doubleIterable.primitiveIterator();
         double sum = 0;
         while (doubleIterator.hasNext()) {
             sum += doubleIterator.nextDouble();
         }
         assertThat(sum, is(6d));
+        assertThat(J8Iterables.toStream(doubleIterable).sum(), is(6d));
     }
 
     @Test
     public void testMapToInt() throws Exception {
-        PrimitiveIterator.OfInt IntIterator =
-                J8Iterables.mapToInt(Arrays.asList(1d, 2d, 3d), Double::intValue).primitiveIterator();
+        J8PrimitiveIterable.OfInt intIterable = J8Iterables.mapToInt(Arrays.asList(1d, 2d, 3d), Double::intValue);
+        PrimitiveIterator.OfInt IntIterator = intIterable.primitiveIterator();
         int sum = 0;
         while (IntIterator.hasNext()) {
             sum += IntIterator.nextInt();
         }
         assertThat(sum, is(6));
+        assertThat(J8Iterables.toStream(intIterable).sum(), is(6));
     }
 
     @Test
     public void testMapToLong() throws Exception {
-        PrimitiveIterator.OfLong LongIterator =
-                J8Iterables.mapToLong(Arrays.asList(1, 2, 3), Integer::longValue).primitiveIterator();
+        J8PrimitiveIterable.OfLong longIterable = J8Iterables.mapToLong(Arrays.asList(1, 2, 3), Integer::longValue);
+        PrimitiveIterator.OfLong LongIterator = longIterable.primitiveIterator();
         long sum = 0;
         while (LongIterator.hasNext()) {
             sum += LongIterator.nextLong();
         }
         assertThat(sum, is(6L));
+        assertThat(J8Iterables.toStream(longIterable).sum(), is(6L));
     }
 }
