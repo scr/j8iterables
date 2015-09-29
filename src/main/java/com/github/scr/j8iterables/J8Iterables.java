@@ -8,9 +8,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.function.*;
-import java.util.stream.Collector;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
+import java.util.stream.*;
 
 /**
  * Utility methods to extend Guava Iterables with Java 8 Stream-like classes such as Collectors.
@@ -195,7 +193,7 @@ public class J8Iterables {
     }
 
     /**
-     * Create a Stream from the given Iterable.
+     * Create a {@link Stream} from the given {@link Iterable}.
      *
      * @param iterable The Iterable to use in creating a Stream
      * @param <T>      The type of elements
@@ -208,6 +206,42 @@ public class J8Iterables {
         }
         // TODO(scr): Is it possible to do late-binding (iterable::spliterator)? Need to know characteristics.
         return StreamSupport.stream(iterable.spliterator(), false);
+    }
+
+    /**
+     * Create an {@link DoubleStream} from the given {@code doubleIterable}.
+     *
+     * @param doubleIterable The iterable to use in creating a DoubleStream
+     * @return DoubleStream from the given iterable
+     */
+    @NotNull
+    public static DoubleStream toStream(@NotNull J8PrimitiveIterable.OfDouble doubleIterable) {
+        // TODO(scr): Is it possible to do late-binding (iterable::spliterator)? Need to know characteristics.
+        return StreamSupport.doubleStream(doubleIterable.primitiveSpliterator(), false);
+    }
+
+    /**
+     * Create an {@link IntStream} from the given {@code intIterable}.
+     *
+     * @param intIterable The iterable to use in creating an IntStream
+     * @return IntStream from the given iterable
+     */
+    @NotNull
+    public static IntStream toStream(@NotNull J8PrimitiveIterable.OfInt intIterable) {
+        // TODO(scr): Is it possible to do late-binding (iterable::spliterator)? Need to know characteristics.
+        return StreamSupport.intStream(intIterable.primitiveSpliterator(), false);
+    }
+
+    /**
+     * Create a {@link LongStream} from the given {@code iterable}.
+     *
+     * @param longIterable The iterable to use in creating a LongStream
+     * @return LongStream from the given iterable
+     */
+    @NotNull
+    public static LongStream toStream(@NotNull J8PrimitiveIterable.OfLong longIterable) {
+        // TODO(scr): Is it possible to do late-binding (iterable::spliterator)? Need to know characteristics.
+        return StreamSupport.longStream(longIterable.primitiveSpliterator(), false);
     }
 
     /**
@@ -272,9 +306,54 @@ public class J8Iterables {
      * @param <T>      the type of elements of the supplied iterable
      * @return an iterable
      */
-    public static <T> SupplierIterable<T> fromSupplier(Supplier<Iterator<? extends T>> supplier) {
+    public static <T> SupplierIterable<T> fromSupplier(@NotNull Supplier<Iterator<? extends T>> supplier) {
         @SuppressWarnings("unchecked")
         Supplier<Iterator<T>> tSupplier = (Supplier<Iterator<T>>) (Supplier) supplier;
         return new SupplierIterable<>(tSupplier);
+    }
+
+    public static <T> J8PrimitiveIterable.OfDouble mapToDouble(
+            @NotNull Iterable<T> iterable, @NotNull ToDoubleFunction<T> toDoubleFunction) {
+        return new J8PrimitiveIterable.OfDouble() {
+            @Override
+            public PrimitiveIterator.OfDouble primitiveIterator() {
+                return J8Iterators.mapToDouble(iterable.iterator(), toDoubleFunction);
+            }
+
+            @Override
+            public Spliterator.OfDouble primitiveSpliterator() {
+                return J8Spliterators.mapToDouble(iterable.spliterator(), toDoubleFunction);
+            }
+        };
+    }
+
+    public static <T> J8PrimitiveIterable.OfInt mapToInt(
+            @NotNull Iterable<T> iterable, @NotNull ToIntFunction<T> toIntFunction) {
+        return new J8PrimitiveIterable.OfInt() {
+            @Override
+            public PrimitiveIterator.OfInt primitiveIterator() {
+                return J8Iterators.mapToInt(iterable.iterator(), toIntFunction);
+            }
+
+            @Override
+            public Spliterator.OfInt primitiveSpliterator() {
+                return J8Spliterators.mapToInt(iterable.spliterator(), toIntFunction);
+            }
+        };
+    }
+
+    public static <T> J8PrimitiveIterable.OfLong mapToLong(
+            @NotNull Iterable<T> iterable, @NotNull ToLongFunction<T> toLongFunction) {
+        return new J8PrimitiveIterable.OfLong() {
+            @Override
+            public PrimitiveIterator.OfLong primitiveIterator() {
+                return J8Iterators.mapToLong(iterable.iterator(), toLongFunction);
+            }
+
+            @Override
+            public Spliterator.OfLong primitiveSpliterator() {
+                return J8Spliterators.mapToLong(iterable.spliterator(), toLongFunction);
+            }
+        };
     }
 }
