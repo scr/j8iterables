@@ -1,3 +1,5 @@
+* 1.7.4
+   * Added support for primitive iterables/iterators/spliterators/streams. 
 * 1.7.3
    * Made `Ends.areUnique()` public.
 * 1.7.2
