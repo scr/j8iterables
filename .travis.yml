@@ -11,4 +11,4 @@ env:
 after_sucess:
   - bash scripts/travisSettings.sh travisSettings.xml
   - bash scripts/installGPG.sh ae4d2db0dbde
-  - mvn clean deploy -Drelease -s travisSettings.xml
+  - "if [[ $TRAVIS_SECURE_ENV_VARS == true ]]; then mvn clean deploy -Drelease -s travisSettings.xml; fi"
