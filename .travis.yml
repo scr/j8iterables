@@ -9,7 +9,4 @@ env:
   - secure: VuOGOAytMyRweTN4Jt23Fjd644Gj5o4UbVf73n5e6HRbpyl2py2mNUJko0taNm0QnpOeiL9f7QjVjfovB4BifKpxuYy23wyod/8OooAFVnYmeekzIhEh36x2rqwMi2AtqQcZrumBYDf/soJ6w6UHh3/PBdEJ5Y/sf4nf4Uvj5EdDNNT3YDWpAj9lqjfFTV2kalhN2WMj+Ho944t0WHVMFfIednTvg2zpZkfErAZ+KIn/QMSN2W3UP4v6K39JTHPB+kuFU2iqGrXIdc0+v2R9VFTZuu7CZ5vddjm7oXC8KimXTDcrLbPycZ5NY0H3J3i/SvPwfVvKxt5+fMVZbfjTq1H93jRKv0FudiN2IZB0mlPXDV1GcJUsMhgYbj6CaRLjb5Hee0C83BKF7tz4lf07AQJz8ViOMWYYSWb7tpSeRbeFYfvTPxJY9sYzRH83TDwZWMm5POY8hptdYvnWfAlHCr8h5z5sta0Ge53+VtcFsElUEQ923Q2ijvKsdSYjuvWE/Scqszxji1u2OSDKj4TGyot4qoJymu+thMwOF5OJMFBAZ5g6TzrF7GTO7C0rASjPwV6hA0qLJaAPALdFcuGKWk3XWMflERE0bMNc4zLPe7zORSnzsVCfdgbLunIzh0hg1IqKnGrQks6vuQJ/GIKHqUtHFED8Rp33LUAIOTc2Gg0=
 after_success:
   - bash scripts/deploy.sh ae4d2db0dbde travis/scr.travis.gpg.asc.enc travis/settings.xml
-addons:
-  apt:
-    packages:
-      - gnupg2
+sudo: true
