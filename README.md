@@ -1,6 +1,8 @@
 # j8iterables
 Extending Guava Iterables for Java8.
 
+[![Build Status](https://travis-ci.org/scr/j8iterables.svg?branch=master)](https://travis-ci.org/scr/j8iterables)
+
 ## Inspiration
 `Stream` provides interesting composibility constructs that encourage smaller functions that focus on very straightforward tasks.  However, there are two features that are sorely lacking:
 
