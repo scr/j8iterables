@@ -11,4 +11,5 @@ env:
 after_success:
   - bash scripts/travisSettings.sh travisSettings.xml
   - bash scripts/installGPG.sh ae4d2db0dbde
+  - sudo apt-get install -y gnupg2
   - "if [[ $TRAVIS_SECURE_ENV_VARS == true ]]; then mvn clean deploy -Drelease -s travisSettings.xml; fi"
