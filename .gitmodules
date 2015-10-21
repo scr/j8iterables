@@ -1,0 +1,3 @@
+[submodule "travis-deploy-sonatype"]
+	path = travis-deploy-sonatype
+	url = git@github.com:scr/travis-deploy-sonatype.git
