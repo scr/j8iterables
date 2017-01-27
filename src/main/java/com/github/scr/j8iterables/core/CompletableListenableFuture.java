@@ -11,7 +11,7 @@ import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
 /**
- * For converting a
+ * For converting between Java8' {@link CompletableFuture} and guava's {@link ListenableFuture}.
  *
  * @author scr on 1/27/17.
  */
