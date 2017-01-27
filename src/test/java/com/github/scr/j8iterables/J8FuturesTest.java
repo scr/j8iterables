@@ -6,6 +6,7 @@ import org.testng.annotations.Test;
 
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -84,6 +85,21 @@ public class J8FuturesTest {
         completableFuture.cancel(true);
         assertThat("listenableFuture isn't done yet", listenableFuture.isDone());
         assertThat("listenableFuture wasn't cancelled", listenableFuture.isCancelled());
-        assertThat(listenableFuture.get(), is(123));
+
+        // Should cause exception
+        listenableFuture.get();
+    }
+
+    @Test(expectedExceptions = ExecutionException.class)
+    public void testOverBackExceptional() throws Exception {
+        SettableFuture<Integer> settableFuture = SettableFuture.create();
+        CompletableFuture<Integer> completableFuture = J8Futures.asCompletableFuture(settableFuture);
+        ListenableFuture<Integer> listenableFuture = J8Futures.asListenableFuture(completableFuture);
+        assertThat("listenableFuture is done too soon", !listenableFuture.isDone());
+        completableFuture.completeExceptionally(new RuntimeException("Testing"));
+        assertThat("listenableFuture isn't done yet", listenableFuture.isDone());
+
+        // Should cause exception
+        listenableFuture.get();
     }
 }
