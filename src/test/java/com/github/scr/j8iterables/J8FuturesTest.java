@@ -61,7 +61,20 @@ public class J8FuturesTest {
         completableFuture.cancel(true);
         assertThat("listenableFuture isn't done yet", listenableFuture.isDone());
         assertThat("listenableFuture wasn't cancelled", listenableFuture.isCancelled());
-        assertThat(listenableFuture.get(), is(123));
+
+        // Should cause exception
+        listenableFuture.get();
+    }
+    @Test(expectedExceptions = ExecutionException.class)
+    public void testAsListenableFutureExceptional() throws Exception {
+        CompletableFuture<Integer> completableFuture = new CompletableFuture<>();
+        ListenableFuture<Integer> listenableFuture = J8Futures.asListenableFuture(completableFuture);
+        assertThat("listenableFuture is done too soon", !listenableFuture.isDone());
+        completableFuture.completeExceptionally(new RuntimeException("Testing"));
+        assertThat("listenableFuture isn't done yet", listenableFuture.isDone());
+
+        // Should cause exception
+        listenableFuture.get();
     }
 
     @Test
