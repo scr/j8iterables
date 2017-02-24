@@ -91,6 +91,7 @@ public class CloseableSpliteratorTest {
         inOrder.verify(atomicInteger).set(3);
         inOrder.verifyNoMoreInteractions();
         Mockito.verify(testSpliterator).forEachRemaining(Mockito.any());
+        Mockito.verify(testResource).close();
     }
 
     @Test
