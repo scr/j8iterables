@@ -9,6 +9,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
@@ -16,6 +17,11 @@ import static org.hamcrest.MatcherAssert.assertThat;
  */
 @Test
 public class J8FuturesTest {
+    @Test
+    public void testCoverageTrickForUtilityClass() throws Exception {
+        assertThat(new J8Futures(), notNullValue());
+    }
+
     @Test
     public void testAsCompletableFutureSuccess() throws Exception {
         SettableFuture<Integer> settableFuture = SettableFuture.create();
@@ -65,6 +71,7 @@ public class J8FuturesTest {
         // Should cause exception
         listenableFuture.get();
     }
+
     @Test(expectedExceptions = ExecutionException.class)
     public void testAsListenableFutureExceptional() throws Exception {
         CompletableFuture<Integer> completableFuture = new CompletableFuture<>();
