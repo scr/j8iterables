@@ -1,5 +1,6 @@
 package com.github.scr.j8iterables.core;
 
+import javax.annotation.Nullable;
 import java.util.Spliterator;
 import java.util.function.IntConsumer;
 import java.util.function.ToIntFunction;
@@ -19,6 +20,7 @@ public class ToIntSpliterator<T> implements Spliterator.OfInt {
     }
 
     @Override
+    @Nullable
     public OfInt trySplit() {
         Spliterator<T> newSpliterator = backingSpliterator.trySplit();
         if (newSpliterator == null) {

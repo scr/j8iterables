@@ -1,7 +1,5 @@
 package com.github.scr.j8iterables.core;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Iterator;
 import java.util.PrimitiveIterator;
 import java.util.function.ToIntFunction;
@@ -15,7 +13,7 @@ public class ToIntIterator<T> implements PrimitiveIterator.OfInt {
     private final Iterator<T> backingIterator;
     private final ToIntFunction<T> toIntFunction;
 
-    public ToIntIterator(@NotNull Iterator<T> backingIterator, @NotNull ToIntFunction<T> toIntFunction) {
+    public ToIntIterator(Iterator<T> backingIterator, ToIntFunction<T> toIntFunction) {
         this.backingIterator = backingIterator;
         this.toIntFunction = toIntFunction;
     }

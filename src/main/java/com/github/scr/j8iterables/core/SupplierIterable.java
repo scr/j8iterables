@@ -2,6 +2,7 @@ package com.github.scr.j8iterables.core;
 
 import com.google.common.collect.FluentIterable;
 
+import javax.annotation.Nonnull;
 import java.util.Iterator;
 import java.util.function.Supplier;
 
@@ -18,6 +19,7 @@ public class SupplierIterable<E> extends FluentIterable<E> {
     }
 
     @Override
+    @Nonnull
     public Iterator<E> iterator() {
         return SUPPLIER.get();
     }

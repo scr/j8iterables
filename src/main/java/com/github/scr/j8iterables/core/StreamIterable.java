@@ -1,8 +1,8 @@
 package com.github.scr.j8iterables.core;
 
 import com.google.common.collect.FluentIterable;
-import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nonnull;
 import java.util.Iterator;
 import java.util.Spliterator;
 import java.util.function.Consumer;
@@ -14,23 +14,23 @@ import java.util.stream.Stream;
  * @param <T> The type of elements
  */
 public class StreamIterable<T> extends FluentIterable<T> {
-    @NotNull
+    @Nonnull
     private final Stream<T> STREAM;
 
-    public StreamIterable(@NotNull Stream<T> stream) {
+    public StreamIterable(Stream<T> stream) {
         STREAM = stream;
     }
 
-    @NotNull
+    @Nonnull
     public Iterator<T> iterator() {
         return STREAM.iterator();
     }
 
-    public void forEach(@NotNull Consumer<? super T> action) {
+    public void forEach(Consumer<? super T> action) {
         STREAM.forEach(action);
     }
 
-    @NotNull
+    @Nonnull
     public Spliterator<T> spliterator() {
         return STREAM.spliterator();
     }

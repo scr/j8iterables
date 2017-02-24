@@ -1,3 +1,5 @@
+* 1.7.6
+   * Switch to optional findbugs:jsr305 to not pollute others with the transitive dep on annotations and for `@ParametersAreNonnullByDefault`.
 * 1.7.5
    * Added J8Futures for converting between [CompletableFuture](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CompletableFuture.html) and Guava's [ListenableFuture](http://google.github.io/guava/releases/snapshot/api/docs/com/google/common/util/concurrent/ListenableFuture.html)
 * 1.7.4

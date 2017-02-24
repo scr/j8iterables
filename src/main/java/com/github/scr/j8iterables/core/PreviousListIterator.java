@@ -2,7 +2,6 @@ package com.github.scr.j8iterables.core;
 
 import java.util.Iterator;
 import java.util.ListIterator;
-import java.util.function.Consumer;
 
 /**
  * An {@link Iterator} that walks a {@link ListIterator} backwards.

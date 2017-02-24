@@ -4,6 +4,7 @@ import com.github.scr.j8iterables.core.CompletableListenableFuture;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.SettableFuture;
 
+import javax.annotation.Nonnull;
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -20,6 +21,7 @@ public class J8Futures {
      * @param <T>              The value type of the future
      * @return a Java8 completable future
      */
+    @Nonnull
     public static <T> CompletableFuture<T> asCompletableFuture(ListenableFuture<T> listenableFuture) {
         return new CompletableListenableFuture<T>(listenableFuture);
     }
@@ -31,6 +33,7 @@ public class J8Futures {
      * @param <T>               The value type of the future
      * @return a Guava listenable future
      */
+    @Nonnull
     public static <T> ListenableFuture<T> asListenableFuture(CompletableFuture<T> completableFuture) {
         if (completableFuture instanceof CompletableListenableFuture) {
             return ((CompletableListenableFuture<T>) completableFuture).delegateListenableFuture;

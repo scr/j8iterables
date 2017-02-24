@@ -5,7 +5,6 @@ import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.SettableFuture;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
@@ -19,7 +18,7 @@ public class CompletableListenableFuture<T> extends CompletableFuture<T> impleme
     @SuppressWarnings("WeakerAccess")
     public final ListenableFuture<T> delegateListenableFuture;
 
-    public CompletableListenableFuture(@NotNull ListenableFuture<T> delegateListenableFuture) {
+    public CompletableListenableFuture(ListenableFuture<T> delegateListenableFuture) {
         this.delegateListenableFuture = Objects.requireNonNull(delegateListenableFuture);
         Futures.addCallback(delegateListenableFuture, this);
     }

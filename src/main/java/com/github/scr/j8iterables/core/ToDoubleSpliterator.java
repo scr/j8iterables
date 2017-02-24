@@ -1,5 +1,6 @@
 package com.github.scr.j8iterables.core;
 
+import javax.annotation.Nullable;
 import java.util.Spliterator;
 import java.util.function.DoubleConsumer;
 import java.util.function.ToDoubleFunction;
@@ -19,6 +20,7 @@ public class ToDoubleSpliterator<T> implements Spliterator.OfDouble {
     }
 
     @Override
+    @Nullable
     public OfDouble trySplit() {
         Spliterator<T> newSpliterator = backingSpliterator.trySplit();
         if (newSpliterator == null) {

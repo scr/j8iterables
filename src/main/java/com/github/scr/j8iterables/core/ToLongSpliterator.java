@@ -1,5 +1,6 @@
 package com.github.scr.j8iterables.core;
 
+import javax.annotation.Nullable;
 import java.util.Spliterator;
 import java.util.function.LongConsumer;
 import java.util.function.ToLongFunction;
@@ -19,6 +20,7 @@ public class ToLongSpliterator<T> implements Spliterator.OfLong {
     }
 
     @Override
+    @Nullable
     public OfLong trySplit() {
         Spliterator<T> newSpliterator = backingSpliterator.trySplit();
         if (newSpliterator == null) {
