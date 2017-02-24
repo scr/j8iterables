@@ -7,7 +7,9 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.io.Closeable;
 import java.util.Spliterator;
+import java.util.Spliterators;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -51,13 +53,14 @@ public class CloseableSpliteratorTest {
 
     @Test
     public void testCharacteristics() throws Exception {
-        assertThat(closeableSpliterator.characteristics(), not(0));
+        final int noCharacteristics = 0;
+        assertThat(closeableSpliterator.characteristics(), not(noCharacteristics));
         Mockito.verify(testSpliterator).characteristics();
     }
 
     @Test
     public void testEstimateSize() throws Exception {
-        assertThat(closeableSpliterator.estimateSize(), is(3L));
+        assertThat(closeableSpliterator.estimateSize(), is((long) testResource.size()));
         Mockito.verify(testSpliterator).estimateSize();
     }
 
@@ -69,7 +72,7 @@ public class CloseableSpliteratorTest {
 
     @Test
     public void testGetExactSizeIfKnown() throws Exception {
-        assertThat(closeableSpliterator.getExactSizeIfKnown(), is(3L));
+        assertThat(closeableSpliterator.getExactSizeIfKnown(), is((long) testResource.size()));
         Mockito.verify(testSpliterator).getExactSizeIfKnown();
     }
 
@@ -77,7 +80,7 @@ public class CloseableSpliteratorTest {
     public void testTryAdvance() throws Exception {
         AtomicInteger atomicInteger = Mockito.mock(AtomicInteger.class);
         closeableSpliterator.tryAdvance(atomicInteger::set);
-        Mockito.verify(atomicInteger).set(1);
+        Mockito.verify(atomicInteger).set(testResource.get(0));
         Mockito.verify(testSpliterator).tryAdvance(Mockito.any());
     }
 
@@ -86,9 +89,9 @@ public class CloseableSpliteratorTest {
         AtomicInteger atomicInteger = Mockito.mock(AtomicInteger.class);
         closeableSpliterator.forEachRemaining(atomicInteger::set);
         InOrder inOrder = Mockito.inOrder(atomicInteger);
-        inOrder.verify(atomicInteger).set(1);
-        inOrder.verify(atomicInteger).set(2);
-        inOrder.verify(atomicInteger).set(3);
+        inOrder.verify(atomicInteger).set(testResource.get(0));
+        inOrder.verify(atomicInteger).set(testResource.get(1));
+        inOrder.verify(atomicInteger).set(testResource.get(2));
         inOrder.verifyNoMoreInteractions();
         Mockito.verify(testSpliterator).forEachRemaining(Mockito.any());
         Mockito.verify(testResource).close();
@@ -101,13 +104,23 @@ public class CloseableSpliteratorTest {
         assertThat("Done too soon", closeableSpliterator.tryAdvance(atomicInteger::set));
         assertThat("Done too soon", closeableSpliterator.tryAdvance(atomicInteger::set));
         InOrder inOrder = Mockito.inOrder(atomicInteger);
-        inOrder.verify(atomicInteger).set(1);
-        inOrder.verify(atomicInteger).set(2);
-        inOrder.verify(atomicInteger).set(3);
+        inOrder.verify(atomicInteger).set(testResource.get(0));
+        inOrder.verify(atomicInteger).set(testResource.get(1));
+        inOrder.verify(atomicInteger).set(testResource.get(2));
         inOrder.verifyNoMoreInteractions();
         Mockito.verify(testResource, Mockito.never()).close();
         assertThat("Not done", !closeableSpliterator.tryAdvance(atomicInteger::set));
         Mockito.verify(testResource).close();
     }
 
+    @Test
+    public void testOfCloseableResource() throws Exception {
+        Closeable testCloseable = Mockito.mock(Closeable.class);
+        CloseableSpliterator<Integer, Closeable> closeableSpliteratorOfCloseable =
+                CloseableSpliterator.ofCloseableResource(testCloseable, Spliterators.<Integer>emptySpliterator());
+        AtomicInteger atomicInteger = Mockito.mock(AtomicInteger.class);
+        Mockito.verifyNoMoreInteractions(atomicInteger);
+        assertThat("Unexpected elements", !closeableSpliteratorOfCloseable.tryAdvance(atomicInteger::set));
+        Mockito.verify(testCloseable).close();
+    }
 }
