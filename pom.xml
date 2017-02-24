@@ -6,7 +6,7 @@
 
     <groupId>com.github.scr</groupId>
     <artifactId>j8iterables</artifactId>
-    <version>1.7.6-SNAPSHOT</version>
+    <version>1.7.6</version>
 
     <name>Java 8 Iterables</name>
     <description>Extension of Guava Iterables using Java 8 Collections and Streams</description>
