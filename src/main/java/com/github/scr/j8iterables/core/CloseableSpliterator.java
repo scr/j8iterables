@@ -14,6 +14,7 @@ import java.util.function.Consumer;
  * @author scr on 2/24/17.
  * @apiNote Upon close, any {@link java.io.IOException} is converted to {@link java.io.UncheckedIOException}.
  */
+@SuppressWarnings("WeakerAccess")
 public class CloseableSpliterator<T, R> implements Spliterator<T> {
     private final R resource;
     private final Consumer<R> resourceCloser;
@@ -88,8 +89,10 @@ public class CloseableSpliterator<T, R> implements Spliterator<T> {
      * @param <T>                Type of the elements
      * @param <R>                Type of the resource
      * @return Spliterator that will close {@code resource} when done.
+     * @apiNote If {@link Closeable} throws an {@link IOException}, an {@link UncheckedIOException} will be thrown.
      */
-    public static <T, R extends Closeable> CloseableSpliterator<T, R> ofCloseableResource(R resource, Spliterator<T> backingSpliterator) {
+    public static <T, R extends Closeable> CloseableSpliterator<T, R> ofCloseableResource(
+            R resource, Spliterator<T> backingSpliterator) {
         return new CloseableSpliterator<>(resource, r -> {
             try {
                 r.close();
