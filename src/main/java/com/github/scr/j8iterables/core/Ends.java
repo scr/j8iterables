@@ -1,16 +1,15 @@
 package com.github.scr.j8iterables.core;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * Encapsulate the first and last elements of a list.
  *
  * @author scr
  */
+@SuppressWarnings("WeakerAccess")
 public class Ends<T> {
-    @NotNull
     private final T first;
-    @NotNull
     private final T last;
 
     /**
@@ -19,7 +18,7 @@ public class Ends<T> {
      * @param first the first end
      * @param last  the last end
      */
-    public Ends(@NotNull T first, @NotNull T last) {
+    public Ends(T first, T last) {
         this.first = first;
         this.last = last;
     }
@@ -29,16 +28,17 @@ public class Ends<T> {
      *
      * @return the first end
      */
-    @NotNull
+    @Nonnull
     public T getFirst() {
         return first;
     }
 
     /**
      * Get the last end.
+     *
      * @return the last end
      */
-    @NotNull
+    @Nonnull
     public T getLast() {
         return last;
     }
@@ -60,6 +60,7 @@ public class Ends<T> {
      * @param <T>   the type of first and last
      * @return a new Ends object
      */
+    @Nonnull
     public static <T> Ends<T> of(T first, T last) {
         return new Ends<>(first, last);
     }
@@ -79,6 +80,7 @@ public class Ends<T> {
     }
 
     @Override
+    @Nonnull
     public String toString() {
         return "Ends{" +
                 "first=" + first +

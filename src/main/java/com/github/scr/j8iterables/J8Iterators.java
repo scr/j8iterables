@@ -1,10 +1,15 @@
 package com.github.scr.j8iterables;
 
-import com.github.scr.j8iterables.core.*;
+import com.github.scr.j8iterables.core.Ends;
+import com.github.scr.j8iterables.core.PeekIterator;
+import com.github.scr.j8iterables.core.PreviousListIterator;
+import com.github.scr.j8iterables.core.ToDoubleIterator;
+import com.github.scr.j8iterables.core.ToIntIterator;
+import com.github.scr.j8iterables.core.ToLongIterator;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Iterators;
-import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nonnull;
 import java.util.Iterator;
 import java.util.ListIterator;
 import java.util.Optional;
@@ -21,6 +26,7 @@ import java.util.stream.StreamSupport;
  *
  * @author scr
  */
+@SuppressWarnings("WeakerAccess")
 public class J8Iterators {
     @VisibleForTesting
     J8Iterators() {
@@ -33,8 +39,8 @@ public class J8Iterators {
      * @param <T>      The type of element
      * @return A Stream object from given iterator.
      */
-    @NotNull
-    public static <T> Stream<T> toStream(@NotNull Iterator<T> iterator) {
+    @Nonnull
+    public static <T> Stream<T> toStream(Iterator<T> iterator) {
         return StreamSupport.stream(((Iterable<T>) () -> iterator).spliterator(), false);
     }
 
@@ -45,8 +51,8 @@ public class J8Iterators {
      * @param <T>      The type of element in the iterator
      * @return optional {@link Ends} with the first and last of the iterable
      */
-    @NotNull
-    public static <T> Optional<Ends<T>> ends(@NotNull Iterator<T> iterator) {
+    @Nonnull
+    public static <T> Optional<Ends<T>> ends(Iterator<T> iterator) {
         if (!iterator.hasNext()) {
             return Optional.empty();
         }
@@ -62,7 +68,8 @@ public class J8Iterators {
      * @param <T>      the type of element in the iterator
      * @return an iterator which sends every element through consumer before returning to the caller
      */
-    public static <T> Iterator<T> peek(@NotNull Iterator<T> iterator, @NotNull Consumer<? super T> consumer) {
+    @Nonnull
+    public static <T> Iterator<T> peek(Iterator<T> iterator, Consumer<? super T> consumer) {
         return new PeekIterator<>(iterator, consumer);
     }
 
@@ -74,22 +81,26 @@ public class J8Iterators {
      * @return an iterator that walks the listIterator backwards
      */
     @SuppressWarnings("unchecked")
+    @Nonnull
     public static <T> PreviousListIterator<T> reverse(ListIterator<? extends T> listIterator) {
         return new PreviousListIterator<>((ListIterator<T>) listIterator);
     }
 
+    @Nonnull
     public static <T> PrimitiveIterator.OfInt mapToInt(
-            @NotNull Iterator<T> iterator, @NotNull ToIntFunction<T> toIntFunction) {
+            Iterator<T> iterator, ToIntFunction<T> toIntFunction) {
         return new ToIntIterator<>(iterator, toIntFunction);
     }
 
+    @Nonnull
     public static <T> PrimitiveIterator.OfLong mapToLong(
-            @NotNull Iterator<T> iterator, @NotNull ToLongFunction<T> toLongFunction) {
+            Iterator<T> iterator, ToLongFunction<T> toLongFunction) {
         return new ToLongIterator<>(iterator, toLongFunction);
     }
 
+    @Nonnull
     public static <T> PrimitiveIterator.OfDouble mapToDouble(
-            @NotNull Iterator<T> iterator, @NotNull ToDoubleFunction<T> toDoubleFunction) {
+            Iterator<T> iterator, ToDoubleFunction<T> toDoubleFunction) {
         return new ToDoubleIterator<>(iterator, toDoubleFunction);
     }
 }

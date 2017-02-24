@@ -4,8 +4,8 @@ import com.github.scr.j8iterables.core.ToDoubleSpliterator;
 import com.github.scr.j8iterables.core.ToIntSpliterator;
 import com.github.scr.j8iterables.core.ToLongSpliterator;
 import com.google.common.annotations.VisibleForTesting;
-import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nonnull;
 import java.util.Spliterator;
 import java.util.function.ToDoubleFunction;
 import java.util.function.ToIntFunction;
@@ -16,23 +16,27 @@ import java.util.function.ToLongFunction;
  *
  * @author scr
  */
+@SuppressWarnings("WeakerAccess")
 public class J8Spliterators {
     @VisibleForTesting
     J8Spliterators() {
     }
 
+    @Nonnull
     public static <T> Spliterator.OfInt mapToInt(
-            @NotNull Spliterator<T> iterator, @NotNull ToIntFunction<T> toIntFunction) {
+            Spliterator<T> iterator, ToIntFunction<T> toIntFunction) {
         return new ToIntSpliterator<>(iterator, toIntFunction);
     }
 
+    @Nonnull
     public static <T> Spliterator.OfLong mapToLong(
-            @NotNull Spliterator<T> iterator, @NotNull ToLongFunction<T> toLongFunction) {
+            Spliterator<T> iterator, ToLongFunction<T> toLongFunction) {
         return new ToLongSpliterator<>(iterator, toLongFunction);
     }
 
+    @Nonnull
     public static <T> Spliterator.OfDouble mapToDouble(
-            @NotNull Spliterator<T> iterator, @NotNull ToDoubleFunction<T> toDoubleFunction) {
+            Spliterator<T> iterator, ToDoubleFunction<T> toDoubleFunction) {
         return new ToDoubleSpliterator<>(iterator, toDoubleFunction);
     }
 }

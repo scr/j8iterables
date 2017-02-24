@@ -1,10 +1,6 @@
 package com.github.scr.j8iterables.core;
 
-import com.google.common.collect.FluentIterable;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Iterator;
-import java.util.ListIterator;
 import java.util.function.Consumer;
 
 /**
@@ -17,7 +13,7 @@ public class PeekIterator<E> implements Iterator<E> {
     private final Iterator<E> backingIterator;
     private final Consumer<? super E> consumer;
 
-    public PeekIterator(@NotNull Iterator<E> iterator, @NotNull Consumer<? super E> consumer) {
+    public PeekIterator(Iterator<E> iterator, Consumer<? super E> consumer) {
         this.backingIterator = iterator;
         this.consumer = consumer;
     }
@@ -41,7 +37,7 @@ public class PeekIterator<E> implements Iterator<E> {
 
     @Override
     @SuppressWarnings("unchecked")
-    public void forEachRemaining(@NotNull Consumer<? super E> action) {
+    public void forEachRemaining(Consumer<? super E> action) {
         backingIterator.forEachRemaining(((Consumer<E>) consumer).andThen(action));
     }
 }

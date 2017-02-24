@@ -1,20 +1,48 @@
 package com.github.scr.j8iterables;
 
-import com.github.scr.j8iterables.core.*;
+import com.github.scr.j8iterables.core.ConsumingIdentity;
+import com.github.scr.j8iterables.core.Ends;
+import com.github.scr.j8iterables.core.J8PrimitiveIterable;
+import com.github.scr.j8iterables.core.PeekIterator;
+import com.github.scr.j8iterables.core.StreamIterable;
+import com.github.scr.j8iterables.core.SupplierIterable;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Iterables;
-import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
-import java.util.function.*;
-import java.util.stream.*;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.ArrayDeque;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Deque;
+import java.util.Iterator;
+import java.util.List;
+import java.util.NavigableSet;
+import java.util.Optional;
+import java.util.PrimitiveIterator;
+import java.util.Spliterator;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.BinaryOperator;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
+import java.util.function.ToDoubleFunction;
+import java.util.function.ToIntFunction;
+import java.util.function.ToLongFunction;
+import java.util.stream.Collector;
+import java.util.stream.DoubleStream;
+import java.util.stream.IntStream;
+import java.util.stream.LongStream;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 /**
  * Utility methods to extend Guava Iterables with Java 8 Stream-like classes such as Collectors.
  *
  * @author scr
  */
+@SuppressWarnings({"WeakerAccess", "Guava"})
 public class J8Iterables {
     /**
      * The empty iterable to be shared across calls to {@link #emptyIterable()}.
@@ -37,10 +65,11 @@ public class J8Iterables {
      * @return Collected result
      * @see Stream#collect(Supplier, BiConsumer, BiConsumer)
      */
-    public static <T, R> R collect(@NotNull Iterable<Iterable<T>> iterables,
-                                   @NotNull Supplier<R> supplier,
-                                   @NotNull BiConsumer<R, ? super T> accumulator,
-                                   @NotNull BiConsumer<R, R> combiner) {
+    @Nullable
+    public static <T, R> R collect(Iterable<Iterable<T>> iterables,
+                                   Supplier<R> supplier,
+                                   BiConsumer<R, ? super T> accumulator,
+                                   BiConsumer<R, R> combiner) {
         R result = supplier.get();
         for (Iterable<T> iterable : iterables) {
             R innerResult = supplier.get();
@@ -63,7 +92,8 @@ public class J8Iterables {
      * @return Collected result
      * @see Stream#collect(Collector)
      */
-    public static <T, A, R> R collect(@NotNull Iterable<T> iterable, @NotNull Collector<? super T, A, R> collector) {
+    @Nullable
+    public static <T, A, R> R collect(Iterable<T> iterable, Collector<? super T, A, R> collector) {
         A container = collector.supplier().get();
         BiConsumer<A, ? super T> accumulator = collector.accumulator();
         for (T t : iterable) {
@@ -81,7 +111,8 @@ public class J8Iterables {
      * @return The reduced result
      * @see Stream#reduce(BinaryOperator)
      */
-    public static <T> Optional<T> reduce(@NotNull Iterable<T> iterable, @NotNull BinaryOperator<T> accumulator) {
+    @Nullable
+    public static <T> Optional<T> reduce(Iterable<T> iterable, BinaryOperator<T> accumulator) {
         boolean foundAny = false;
         T result = null;
         for (T element : iterable) {
@@ -105,9 +136,10 @@ public class J8Iterables {
      * @return The reduced result
      * @see Stream#reduce(Object, BinaryOperator)
      */
-    public static <T> T reduce(@NotNull Iterable<T> iterable,
-                               T identity,
-                               @NotNull BinaryOperator<T> accumulator) {
+    @Nullable
+    public static <T> T reduce(Iterable<T> iterable,
+                               @SuppressWarnings("SameParameterValue") @Nullable T identity,
+                               BinaryOperator<T> accumulator) {
         T result = identity;
         for (T element : iterable) {
             result = accumulator.apply(result, element);
@@ -127,10 +159,11 @@ public class J8Iterables {
      * @return The reduced result
      * @see Stream#reduce(Object, BiFunction, BinaryOperator)
      */
-    public static <T, U> U reduce(@NotNull Iterable<Iterable<T>> iterables,
-                                  U identity,
-                                  @NotNull BiFunction<U, ? super T, U> accumulator,
-                                  @NotNull BinaryOperator<U> combiner) {
+    @Nullable
+    public static <T, U> U reduce(Iterable<Iterable<T>> iterables,
+                                  @SuppressWarnings("SameParameterValue") @Nullable U identity,
+                                  BiFunction<U, ? super T, U> accumulator,
+                                  BinaryOperator<U> combiner) {
         U result = identity;
         for (Iterable<T> iterable : iterables) {
             U innerResult = identity;
@@ -149,8 +182,8 @@ public class J8Iterables {
      * @param <T>      The type of element in the iterable
      * @return optional {@link Ends} with the first and last of the iterable
      */
-    @NotNull
-    public static <T> Optional<Ends<T>> ends(@NotNull Iterable<T> iterable) {
+    @Nonnull
+    public static <T> Optional<Ends<T>> ends(Iterable<T> iterable) {
         return J8Iterators.ends(iterable.iterator());
     }
 
@@ -163,8 +196,8 @@ public class J8Iterables {
      * @return an Iterable that, when traversed will invoke the consumer on each element
      * @see Stream#peek(Consumer)
      */
-    @NotNull
-    public static <T> FluentIterable<T> peek(@NotNull Iterable<T> iterable, @NotNull Consumer<? super T> consumer) {
+    @Nonnull
+    public static <T> FluentIterable<T> peek(Iterable<T> iterable, Consumer<? super T> consumer) {
         return fromSupplier(() -> new PeekIterator<>(iterable.iterator(), consumer));
     }
 
@@ -175,8 +208,8 @@ public class J8Iterables {
      * @param <T>      The type of elements
      * @return a peeking (non-transforming) transformer
      */
-    @NotNull
-    public static <T> ConsumingIdentity<T> peeker(@NotNull Consumer<T> consumer) {
+    @Nonnull
+    public static <T> ConsumingIdentity<T> peeker(Consumer<T> consumer) {
         return new ConsumingIdentity<>(consumer);
     }
 
@@ -187,8 +220,8 @@ public class J8Iterables {
      * @param <T>    The type of elements
      * @return Iterable from the given stream
      */
-    @NotNull
-    public static <T> FluentIterable<T> fromStream(@NotNull Stream<T> stream) {
+    @Nonnull
+    public static <T> FluentIterable<T> fromStream(Stream<T> stream) {
         return new StreamIterable<>(stream);
     }
 
@@ -199,8 +232,8 @@ public class J8Iterables {
      * @param <T>      The type of elements
      * @return Stream from the given iterable
      */
-    @NotNull
-    public static <T> Stream<T> toStream(@NotNull Iterable<T> iterable) {
+    @Nonnull
+    public static <T> Stream<T> toStream(Iterable<T> iterable) {
         if (iterable instanceof Collection) {
             return ((Collection<T>) iterable).stream();
         }
@@ -214,8 +247,8 @@ public class J8Iterables {
      * @param doubleIterable The iterable to use in creating a DoubleStream
      * @return DoubleStream from the given iterable
      */
-    @NotNull
-    public static DoubleStream toStream(@NotNull J8PrimitiveIterable.OfDouble doubleIterable) {
+    @Nonnull
+    public static DoubleStream toStream(J8PrimitiveIterable.OfDouble doubleIterable) {
         // TODO(scr): Is it possible to do late-binding (iterable::spliterator)? Need to know characteristics.
         return StreamSupport.doubleStream(doubleIterable.primitiveSpliterator(), false);
     }
@@ -226,8 +259,8 @@ public class J8Iterables {
      * @param intIterable The iterable to use in creating an IntStream
      * @return IntStream from the given iterable
      */
-    @NotNull
-    public static IntStream toStream(@NotNull J8PrimitiveIterable.OfInt intIterable) {
+    @Nonnull
+    public static IntStream toStream(J8PrimitiveIterable.OfInt intIterable) {
         // TODO(scr): Is it possible to do late-binding (iterable::spliterator)? Need to know characteristics.
         return StreamSupport.intStream(intIterable.primitiveSpliterator(), false);
     }
@@ -238,8 +271,8 @@ public class J8Iterables {
      * @param longIterable The iterable to use in creating a LongStream
      * @return LongStream from the given iterable
      */
-    @NotNull
-    public static LongStream toStream(@NotNull J8PrimitiveIterable.OfLong longIterable) {
+    @Nonnull
+    public static LongStream toStream(J8PrimitiveIterable.OfLong longIterable) {
         // TODO(scr): Is it possible to do late-binding (iterable::spliterator)? Need to know characteristics.
         return StreamSupport.longStream(longIterable.primitiveSpliterator(), false);
     }
@@ -251,13 +284,14 @@ public class J8Iterables {
      * @return an empty FluentIterable
      */
     @SuppressWarnings("unchecked")
+    @Nonnull
     public static <T> FluentIterable<T> emptyIterable() {
         return (FluentIterable<T>) EMPTY_ITERABLE;
     }
 
     /**
      * Create a FluentIterable for elements.
-     *
+     * <p>
      * Provides a wrapper to help where {@link FluentIterable} falls short - no varargs static constructor for testing.
      *
      * @param elements the elements to iterate over
@@ -265,6 +299,7 @@ public class J8Iterables {
      * @return a FluentIterable for elements
      */
     @SafeVarargs
+    @Nonnull
     public static <T> FluentIterable<T> of(T... elements) {
         return FluentIterable.of(elements);
     }
@@ -276,6 +311,7 @@ public class J8Iterables {
      * @param <T>      the type of elements
      * @return an iterable that reverses the navigableSet
      */
+    @Nonnull
     public static <T> FluentIterable<T> reverse(Iterable<? extends T> iterable) {
         // If it's already reversable, return it.
         if (iterable instanceof NavigableSet) {
@@ -306,14 +342,16 @@ public class J8Iterables {
      * @param <T>      the type of elements of the supplied iterable
      * @return an iterable
      */
-    public static <T> SupplierIterable<T> fromSupplier(@NotNull Supplier<Iterator<? extends T>> supplier) {
+    @Nonnull
+    public static <T> SupplierIterable<T> fromSupplier(Supplier<Iterator<? extends T>> supplier) {
         @SuppressWarnings("unchecked")
         Supplier<Iterator<T>> tSupplier = (Supplier<Iterator<T>>) (Supplier) supplier;
         return new SupplierIterable<>(tSupplier);
     }
 
+    @Nonnull
     public static <T> J8PrimitiveIterable.OfDouble mapToDouble(
-            @NotNull Iterable<T> iterable, @NotNull ToDoubleFunction<T> toDoubleFunction) {
+            Iterable<T> iterable, ToDoubleFunction<T> toDoubleFunction) {
         return new J8PrimitiveIterable.OfDouble() {
             @Override
             public PrimitiveIterator.OfDouble primitiveIterator() {
@@ -327,8 +365,9 @@ public class J8Iterables {
         };
     }
 
+    @Nonnull
     public static <T> J8PrimitiveIterable.OfInt mapToInt(
-            @NotNull Iterable<T> iterable, @NotNull ToIntFunction<T> toIntFunction) {
+            Iterable<T> iterable, ToIntFunction<T> toIntFunction) {
         return new J8PrimitiveIterable.OfInt() {
             @Override
             public PrimitiveIterator.OfInt primitiveIterator() {
@@ -342,8 +381,9 @@ public class J8Iterables {
         };
     }
 
+    @Nonnull
     public static <T> J8PrimitiveIterable.OfLong mapToLong(
-            @NotNull Iterable<T> iterable, @NotNull ToLongFunction<T> toLongFunction) {
+            Iterable<T> iterable, ToLongFunction<T> toLongFunction) {
         return new J8PrimitiveIterable.OfLong() {
             @Override
             public PrimitiveIterator.OfLong primitiveIterator() {
