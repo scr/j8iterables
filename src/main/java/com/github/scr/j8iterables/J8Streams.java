@@ -15,7 +15,7 @@ import java.util.stream.StreamSupport;
  *
  * @author scr on 2/24/17.
  */
-@SuppressWarnings("WeakerAccess")
+@SuppressWarnings({"WeakerAccess", "SameParameterValue"})
 public class J8Streams {
     /**
      * Inspired by
