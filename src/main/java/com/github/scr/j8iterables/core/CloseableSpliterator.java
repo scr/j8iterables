@@ -1,5 +1,6 @@
 package com.github.scr.j8iterables.core;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.Closeable;
 import java.io.IOException;
@@ -91,6 +92,7 @@ public class CloseableSpliterator<T, R> implements Spliterator<T> {
      * @return Spliterator that will close {@code resource} when done.
      * @apiNote If {@link Closeable} throws an {@link IOException}, an {@link UncheckedIOException} will be thrown.
      */
+    @Nonnull
     public static <T, R extends Closeable> CloseableSpliterator<T, R> ofCloseableResource(
             R resource, Spliterator<T> backingSpliterator) {
         return new CloseableSpliterator<>(resource, r -> {
