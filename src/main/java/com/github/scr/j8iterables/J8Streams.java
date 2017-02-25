@@ -2,6 +2,7 @@ package com.github.scr.j8iterables;
 
 import com.github.scr.j8iterables.core.CloseableSpliterator;
 
+import javax.annotation.Nonnull;
 import java.io.Closeable;
 import java.util.Spliterator;
 import java.util.function.Consumer;
@@ -31,6 +32,7 @@ public class J8Streams {
      * @param <R>                       Type of the resource
      * @return A Stream of T
      */
+    @Nonnull
     public static <T, R> Stream<T> unfoldResource(
             Supplier<R> resourceSupplier,
             Function<R, Spliterator<T>> resourceSpliteratorMapper,
@@ -58,6 +60,7 @@ public class J8Streams {
      * @return A Stream of T
      * @apiNote If {@link Closeable} throws an {@link java.io.IOException}, an {@link java.io.UncheckedIOException} will be thrown.
      */
+    @Nonnull
     public static <T, R extends Closeable> Stream<T> unfoldResource(
             Supplier<R> resourceSupplier,
             Function<R, Spliterator<T>> resourceSpliteratorMapper,
