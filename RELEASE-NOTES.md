@@ -1,3 +1,5 @@
+* 1.8.0
+   * Remove Use of `FluentIterable.of`, which changes between guava versions.
 * 1.7.6
    * Add J8Streams.unfoldResource inspired by [akka-streams Source.unfoldResource](http://doc.akka.io/docs/akka/2.4/scala/stream/stages-overview.html#unfoldResource).
    * Switch to optional findbugs:jsr305 to not pollute others with the transitive dep on annotations and for `@ParametersAreNonnullByDefault`.
