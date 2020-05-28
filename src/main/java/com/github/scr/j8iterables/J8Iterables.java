@@ -12,16 +12,7 @@ import com.google.common.collect.Iterables;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.ArrayDeque;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Deque;
-import java.util.Iterator;
-import java.util.List;
-import java.util.NavigableSet;
-import java.util.Optional;
-import java.util.PrimitiveIterator;
-import java.util.Spliterator;
+import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.BinaryOperator;
@@ -301,7 +292,7 @@ public class J8Iterables {
     @SafeVarargs
     @Nonnull
     public static <T> FluentIterable<T> of(T... elements) {
-        return FluentIterable.of(elements);
+        return FluentIterable.from(Arrays.asList(elements));
     }
 
     /**
